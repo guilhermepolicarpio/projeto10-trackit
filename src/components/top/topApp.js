@@ -21,8 +21,9 @@ box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
     font-style: normal;
     font-weight: 400;
     font-size: 38.982px;
-    line-height: 49px;
+    line-height: 69px;
     color: #FFFFFF;
     font-family: 'Playball', cursive;
+    margin-left: 18px
     }
 `;

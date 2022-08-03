@@ -10,7 +10,7 @@ export default function TopLogin(){
 }
 
 const Toplogin= styled.img`
-margin: auto;
+margin: 100px 80px 30px 100px;
 width: 180px;
 height: 178.38px;
 `;
