@@ -1,7 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ReactDOM from "react-dom";
 import React from "react";
-import styled from 'styled-components';
+import { useState } from "react";
+import UserContext from "./components/UserContext"; 
 import Login from "./components/login";
 import GlobalStyle from "./styles/globalStyles";
 import Registration from "./components/Registration";
@@ -12,11 +13,12 @@ import Habits from "./components/Habits";
 const rootHtml= document.querySelector(".root")
 
 export default function Initial(){
+    const [userInfo, setUserInfo] = useState({});
 
     return(
      <>
         <GlobalStyle />
-        <BodyContent>
+        <UserContext.Provider value={{ userInfo, setUserInfo}}>
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<Login />}/>
@@ -26,16 +28,10 @@ export default function Initial(){
                     <Route path="/habitos" element={<Habits />} />
                 </Routes>
             </BrowserRouter>
-        </BodyContent>
+            </UserContext.Provider>
     </>
     )
-
 }
-const BodyContent= styled.div`
-
-width: 375px;
-margin: 0 auto;
-`;
 
 ReactDOM.render(
     <React.StrictMode>

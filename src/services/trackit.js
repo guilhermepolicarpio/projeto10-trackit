@@ -9,4 +9,9 @@ function newUser(values) {
     const promise = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login`, values);
     return promise;
   }
+
+  function getHabit(values){
+    const promise = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits`, values);
+    return promise;
+  }
   export {newUser,loginUser};
