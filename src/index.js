@@ -18,10 +18,11 @@ export default function Initial(){
     const [reload,SetReload] = useState(false);
     const [AddHabits, setAddHabits] = useState(false);
     const [progress, setProgress] = useState(0);
+    const [Todaylist, setTodaylist] = useState([]);
     return(
      <>
         <GlobalStyle />
-        <UserContext.Provider value={{ userInfo, setUserInfo, reload,SetReload,AddHabits, setAddHabits,progress, setProgress}}>
+        <UserContext.Provider value={{ userInfo, setUserInfo, reload,SetReload,AddHabits,Todaylist, setTodaylist, setAddHabits,progress, setProgress}}>
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<Login />}/>

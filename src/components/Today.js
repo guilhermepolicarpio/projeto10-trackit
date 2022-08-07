@@ -5,7 +5,7 @@ import Footer from './Footer'
 import 'dayjs/locale/pt-br';
 import dayjs from 'dayjs';
 import UserContext from './UserContext';
-import { useContext,useEffect,useState } from "react";
+import { useContext,useEffect } from "react";
 import { doneHabit,undoneHabit,getTodayHabit } from '../services/trackit';
 
 
@@ -13,8 +13,7 @@ export default function Today({userinfo}){
 
     const days = dayjs().locale('pt-br').format('dddd, DD/MM');
     const now = days[0].toUpperCase() + days.substring([1]);
-    const [Todaylist, setTodaylist] = useState([]);
-    const {userInfo,reload,SetReload,progress, setProgress} = useContext(UserContext);
+    const {userInfo,reload,SetReload,progress, setProgress,Todaylist, setTodaylist} = useContext(UserContext);
 
     useEffect(() => {
 
@@ -27,7 +26,6 @@ export default function Today({userinfo}){
         getTodayHabit(config).then((res)=>{
             setTodaylist(res.data)
             SetReload(true)
-            
         });
 
         if(Todaylist.length >0) {
@@ -36,7 +34,7 @@ export default function Today({userinfo}){
           setProgress(total);
         }
         
-      }, [Todaylist,userInfo.token]);
+      }, [Todaylist,userInfo.token,SetReload,setProgress,setTodaylist]);
 
     function checkHabit(habit) {
         console.log("oi")

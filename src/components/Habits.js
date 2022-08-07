@@ -175,7 +175,7 @@ const Weekday = styled.div`
 const NoHabit= styled.div`
     font-size: 18px;
     line-height: 22px;
-    color: #666666;
+    color: black;
     padding: 10px 10px 0px 10px;
     text-align: center;
 `;
