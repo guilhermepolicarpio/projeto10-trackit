@@ -3,14 +3,18 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import UserContext from './UserContext';
+import { useContext } from "react";
 export default function Footer(){
+
+    const {progress} = useContext(UserContext);
     return(
     <FooterBox>
         <Link to='/habitos'><p>Hábitos</p></Link>
         <Progressbar>
             <Link to="/hoje">
             <CircularProgressbar
-                value="50"
+                value={progress}
                 background
                 backgroundPadding={6}
                 styles={buildStyles({
@@ -29,10 +33,10 @@ export default function Footer(){
 }
 
 const FooterBox= styled.div`
-width: 375px;
-height: 70px;
+width: 100%;
+height: 50px;
 position: fixed;
-top: 600px;
+bottom: 0px;
 background: #FFFFFF;
 display: flex;
 align-items: center;
@@ -42,12 +46,21 @@ font-weight: 400;
 font-size: 17.976px;
 line-height: 22px;
 text-align: center;
+z-index:1;
 
 p{
 font-size: 17.976px;
 line-height: 22px;
 text-align: center;
 color: #52B6FF;
+}
+
+p:first-child{
+
+margin-left: 15px;
+}
+p:last-child{
+ margin-right: 15px;
 }
 `;
 

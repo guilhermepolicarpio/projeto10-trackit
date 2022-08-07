@@ -7,7 +7,7 @@ import { useContext } from "react";
 import UserContext from './UserContext';
 
 export default function CreateHabits(){
-    const {userInfo} = useContext(UserContext);
+    const {userInfo,SetReload, AddHabits, setAddHabits} = useContext(UserContext);
     const [loading, setLoading] = useState(false);
     const [days, setDays] = useState([false,false,false,false,false,false,false,]);
     const [habit, setHabit] = useState({
@@ -29,6 +29,15 @@ function addHabit () {
         
     let Days = days.map((day, index) => day ? index : null).filter(day => day !== null);
 
+    if(habit.name===""){
+        window.alert("Nome do hábito está em branco")
+        return
+    }
+
+    if(Days.length===0){
+        window.alert("Não foi selecionado nenhum dia!")
+       return
+    }
     const objHabit = {
         name: habit,
         days: Days,
@@ -39,11 +48,13 @@ function addHabit () {
             "Authorization": `Bearer ${userInfo.token}`,
         }
     }
+
     setLoading(true) 
     let promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits", objHabit, config);
     promise.then(() => {
-        console.log("Sucesso")
         setLoading(false) 
+        SetReload(false)
+        setAddHabits(false)
     })
 };
 
@@ -55,7 +66,7 @@ function addHabit () {
         }
     }
 
-    function changeFontColor(dayIndex){
+    function paintFont(dayIndex){
         if(days[dayIndex] === true){
             return "#ffffff";
         }else{
@@ -63,20 +74,22 @@ function addHabit () {
         }
     }
 
+
     return(
+        
         <NewHabitContainer>
           <input onChange={e => setHabit(e.target.value)} placeholder="nome do hábito" />
         <Weekdays>
-            <Weekday onClick={() => toggleWeekday(0)} background={() => changeBackColor(0)} color={() => changeFontColor(0)}>D</Weekday>
-            <Weekday onClick={() => toggleWeekday(1)} background={() => changeBackColor(1)} color={() => changeFontColor(1)}>S</Weekday>
-            <Weekday onClick={() => toggleWeekday(2)} background={() => changeBackColor(2)} color={() => changeFontColor(2)}>T</Weekday>
-            <Weekday onClick={() => toggleWeekday(3)} background={() => changeBackColor(3)} color={() => changeFontColor(3)}>Q</Weekday>
-            <Weekday onClick={() => toggleWeekday(4)}  background={() => changeBackColor(4)} color={() => changeFontColor(4)}>Q</Weekday>
-            <Weekday onClick={() => toggleWeekday(5)}  background={() => changeBackColor(5)} color={() => changeFontColor(5)}>S</Weekday>
-            <Weekday onClick={() => toggleWeekday(6)}  background={() => changeBackColor(6)} color={() => changeFontColor(6)}>S</Weekday>
+            <Weekday onClick={() => toggleWeekday(0)} background={() => changeBackColor(0)} color={() => paintFont(0)}>D</Weekday>
+            <Weekday onClick={() => toggleWeekday(1)} background={() => changeBackColor(1)} color={() => paintFont(1)}>S</Weekday>
+            <Weekday onClick={() => toggleWeekday(2)} background={() => changeBackColor(2)} color={() => paintFont(2)}>T</Weekday>
+            <Weekday onClick={() => toggleWeekday(3)} background={() => changeBackColor(3)} color={() => paintFont(3)}>Q</Weekday>
+            <Weekday onClick={() => toggleWeekday(4)}  background={() => changeBackColor(4)} color={() => paintFont(4)}>Q</Weekday>
+            <Weekday onClick={() => toggleWeekday(5)}  background={() => changeBackColor(5)} color={() => paintFont(5)}>S</Weekday>
+            <Weekday onClick={() => toggleWeekday(6)}  background={() => changeBackColor(6)} color={() => paintFont(6)}>S</Weekday>
         </Weekdays>
     <Buttons>
-        <button>Cancelar</button>
+        <button onClick={() => setAddHabits(!AddHabits)} >Cancelar</button>
         <button onClick={addHabit}>{loading ? <ThreeDots color="white" height={40} width={40} /> : <p>Salvar</p> }</button>
     </Buttons>
         </NewHabitContainer> 
@@ -84,15 +97,16 @@ function addHabit () {
 }
 
 const NewHabitContainer = styled.div`
-    width: 90%;
+    width: 340px;
+    margin: 0 auto;
     height: 180px;
     background-color: #ffffff;
-    display: flex;
     flex-direction: column;
     border-radius: 5px;
     padding: 15px;
     margin: 0 auto;
-    
+    margin-bottom:20px;
+    display: flex;
     input{
         width: 100%;
         height: 45px;
@@ -101,7 +115,6 @@ const NewHabitContainer = styled.div`
         border-radius: 5px;
         font-size: 20px;
         line-height: 25px;
-        color: black;
         padding-left: 15px;
         margin-bottom: 6px;
     }
@@ -127,11 +140,10 @@ margin-top: 20px;
         font-size: 16px;
         line-height: 20px;
         text-align: center;
-        color: #52B6FF;
+        color: #52B6Fa;
         display: flex;
         justify-content: center;
         align-items: center;
-        
     }
     button:last-child{
         border: none;

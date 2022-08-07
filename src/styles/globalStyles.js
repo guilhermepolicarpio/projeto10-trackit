@@ -60,16 +60,8 @@ a {
 }
 
 body {
-	
   color: #293845;
-  
-}
-
-.root{
-	width: 375px;
-height: 667px;
-margin: 0 auto;
-background: #f2f2f2;
+  height:100%;
 }
 `;
 

@@ -6,34 +6,29 @@ import { useState,useContext,useEffect } from "react";
 import UserContext from './UserContext';
 import axios from 'axios';
 import Delete from "../images/Group.png"
+import { getHabit } from '../services/trackit';
 
 export default function Habits({userinfo}){
 
     const [habits, setHabits] = useState([]);
-    const [AddHabits, setAddHabits] = useState(false);
-    const { userInfo } = useContext(UserContext);
-    const [reload,SetReload] = useState(false);
-    
-    
-    useEffect(() => {        
-
+    const { userInfo,reload,SetReload,AddHabits, setAddHabits } = useContext(UserContext);
+        
+    useEffect(() => {    
+       
         const config = {
             headers: {
                 "Authorization": `Bearer ${userInfo.token}`,
             }
         }
 
-        let promise = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits", config);
-        promise.then((response) => {
+        getHabit(config).then((response) => {
             setHabits([...response.data]);
             SetReload(true)
-            console.log(reload)
         });
-    },[])
-
-       
+    },[reload,userInfo.token,SetReload])
+    
     return(
-        <>
+        <Box>
          <TopApp/>
          <Initial>
                 <strong><h1>Meus hábitos</h1></strong>
@@ -41,17 +36,16 @@ export default function Habits({userinfo}){
         </Initial>
         
         {AddHabits ? <CreateHabits/> : <></>}
-        {reload  ? 
-                        listHabits({habits,userInfo,SetReload,reload})
-                        : 
-                        <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>}
+        {habits.length !==0  ? 
+                    listHabits({habits,userInfo,SetReload,reload})
+                    : 
+                    <NoHabit>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</NoHabit>}
          <Footer/>
-        </>
+        </Box>
     )
 }
 
 function listHabits({habits,userInfo,SetReload,reload}){
-
     
     function deleteHabit(id){       
         if(window.confirm("Tem certeza que deseja apagar o hábito?")){
@@ -62,87 +56,80 @@ function listHabits({habits,userInfo,SetReload,reload}){
             }
             let promise = axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}`, config);
             promise.then(() => {
-                SetReload(!reload)
+                SetReload(false)
             })
-        
         }
     }
     
     return(
+     <>
+    {reload ?
+        (
     <HabitsContainer>
     {habits.map((habit) =>
             <Habit key={habit.id}>
                 <p>{habit.name}</p>
                 <Weekdays>
-                    <Weekday background={() => paintWeekday(0, habit)} color={() => paintFont(0, habit)}>D</Weekday>
-                    <Weekday background={() => paintWeekday(1, habit)} color={() => paintFont(1, habit)}>S</Weekday>
-                    <Weekday background={() => paintWeekday(2, habit)} color={() => paintFont(2, habit)}>T</Weekday>
-                    <Weekday background={() => paintWeekday(3, habit)} color={() => paintFont(3, habit)}>Q</Weekday>
-                    <Weekday background={() => paintWeekday(4, habit)} color={() => paintFont(4, habit)}>Q</Weekday>
-                    <Weekday background={() => paintWeekday(5, habit)} color={() => paintFont(5, habit)}>S</Weekday>
-                    <Weekday background={() => paintWeekday(6, habit)} color={() => paintFont(6, habit)}>S</Weekday>
+                    <Weekday background={() => changeBackcolor(0, habit)} color={() => paintFont(0, habit)}>D</Weekday>
+                    <Weekday background={() => changeBackcolor(1, habit)} color={() => paintFont(1, habit)}>S</Weekday>
+                    <Weekday background={() => changeBackcolor(2, habit)} color={() => paintFont(2, habit)}>T</Weekday>
+                    <Weekday background={() => changeBackcolor(3, habit)} color={() => paintFont(3, habit)}>Q</Weekday>
+                    <Weekday background={() => changeBackcolor(4, habit)} color={() => paintFont(4, habit)}>Q</Weekday>
+                    <Weekday background={() => changeBackcolor(5, habit)} color={() => paintFont(5, habit)}>S</Weekday>
+                    <Weekday background={() => changeBackcolor(6, habit)} color={() => paintFont(6, habit)}>S</Weekday>
                 </Weekdays>
                 <img src={Delete} alt="deletar" onClick={() => deleteHabit(habit.id)}/>
             </Habit>
     )}
-    </HabitsContainer>   )
+    </HabitsContainer>  ) 
+    :
+    (<></>)}</>)
 }
 
-function paintWeekday(dayNumber, habit){
-        
-    if(habit.days.includes(dayNumber)){
-        return "#cfcfcf";
-    }else{
-        return "#ffffff";
-    }
+function changeBackcolor(dayNumber, habit){    
+    if(habit.days.includes(dayNumber)){  return "#cfcfcf";   }
+    else{  return "#ffffff";  }
 }
 
 function paintFont(dayNumber, habit){
-    
-    if(habit.days.includes(dayNumber)){
-        return "#ffffff";
-    }else{
-        return "#dbdbdb";
-    }
+    if(habit.days.includes(dayNumber)){  return "#ffffff";   }
+    else{  return "#dbdbdb";   }
 }
 
 const Initial= styled.div`
 
-display:flex;
-justify-content: space-between;
-align-items: center;
-height: 70px;
-padding: 0px 17px 0px 17px;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+    padding: 0px 17px 0px 17px;
 
 h1{
-font-size: 22.976px;
-line-height: 29px;
-color: #126BA5;
+    font-size: 22.976px;
+    line-height: 29px;
+    color: #126BA5;
 }
 
 button{
-width: 40px;
-height: 35px;
-background: #52B6FF;
-border-radius: 4.63636px;
-border-color: #52B6FF;
+    width: 40px;
+    height: 35px;
+    background: #52B6FF;
+    border-radius: 4.63636px;
+    border-color: #52B6FF;
 
 p{
-font-size: 22.976px;
-text-align: center;
-color: #FFFFFF;
+    font-size: 22.976px;
+    text-align: center;
+    color: #FFFFFF;
 }
-}
-
-`;
+}`;
 
 const HabitsContainer = styled.div`
-    width: 90%;
-    padding: 0 20px;
+    width: 340px;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    overflow: auto;
 `;
 
 const Habit = styled.div`
@@ -164,8 +151,8 @@ const Habit = styled.div`
         top: 10px;
         right: 10px;
         
-    }
-`;
+    }`;
+
 const Weekdays = styled.div`
     display: flex;
     justify-content: space-between;
@@ -183,5 +170,19 @@ const Weekday = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    
+`;
+
+const NoHabit= styled.div`
+    font-size: 18px;
+    line-height: 22px;
+    color: #666666;
+    padding: 10px 10px 0px 10px;
+    text-align: center;
+`;
+
+const Box = styled.div`
+background: #E5E5E5;
+position: absolute;
+height: 100%;
+width:100%;
 `;

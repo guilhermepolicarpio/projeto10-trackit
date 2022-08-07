@@ -17,7 +17,7 @@ export default function TopApp(){
 }
 
 const TopAppDiv= styled.div`
-width: 375px;
+width: 100%;
 height: 70px;
 margin: 0 auto;
 background: #126BA5;
@@ -38,5 +38,6 @@ display:flex;
         width:52px;
         height:52px;
         border-radius: 50%;
+        margin-right:10px;
     }
 `;

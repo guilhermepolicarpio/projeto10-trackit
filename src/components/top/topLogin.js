@@ -4,13 +4,20 @@ import Image from "../../images/toplogin.png"
 
 export default function TopLogin(){
     return(
-
-        <Toplogin src={Image} alt=""/>
+        <Top>
+            <TopLoginImg src={Image} alt=""/>
+        </Top>
     )
 }
 
-const Toplogin= styled.img`
-margin: 100px 80px 30px 100px;
+const Top= styled.div`
+display: flex;
+padding-top: 70px;
+margin-bottom: 30px;
+`;
+
+const TopLoginImg= styled.img`
+margin: 0 auto;
 width: 180px;
 height: 178.38px;
 `;

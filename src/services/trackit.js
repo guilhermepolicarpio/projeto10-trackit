@@ -10,8 +10,23 @@ function newUser(values) {
     return promise;
   }
 
-  function getHabit(values){
-    const promise = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits`, values);
+  function getHabit(config){
+    const promise = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits`, config);
     return promise;
   }
-  export {newUser,loginUser};
+
+  function getTodayHabit(config){
+    const promise = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today`, config);
+    return promise;
+  }
+
+  function doneHabit(habit,config){
+    const promise = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habit}/check`, habit,config);
+    return promise;
+  }
+
+  function undoneHabit(habit,config){
+    const promise = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habit}/uncheck`, habit,config);
+    return promise;
+  }
+  export {newUser,loginUser,getHabit,getTodayHabit,doneHabit,undoneHabit};

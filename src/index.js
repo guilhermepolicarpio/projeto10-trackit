@@ -10,15 +10,18 @@ import Today from "./components/Today";
 import Historic from "./components/Historic"
 import Habits from "./components/Habits";
 
+
 const rootHtml= document.querySelector(".root")
 
 export default function Initial(){
     const [userInfo, setUserInfo] = useState({});
-
+    const [reload,SetReload] = useState(false);
+    const [AddHabits, setAddHabits] = useState(false);
+    const [progress, setProgress] = useState(0);
     return(
      <>
         <GlobalStyle />
-        <UserContext.Provider value={{ userInfo, setUserInfo}}>
+        <UserContext.Provider value={{ userInfo, setUserInfo, reload,SetReload,AddHabits, setAddHabits,progress, setProgress}}>
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<Login />}/>
