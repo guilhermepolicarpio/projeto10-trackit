@@ -66,7 +66,7 @@ export default function Registration(){
 }
 
 const Campo= styled.input`
-  width:375px;
+  width:350px;
   height:45px;
   color: #DBDBDB;
   font-size: 19.976px;
@@ -79,7 +79,7 @@ const Campo= styled.input`
 `;
 
 const Campodis= styled.input`
-  width:375px;
+  width:350px;
   height:45px;
   color: #DBDBDB;
   font-size: 19.976px;
@@ -96,7 +96,7 @@ button{
   display: flex;
   align-items:center;
   justify-content: center;
-  width:375px;
+  width:350px;
   height:45px;
   font-size: 19.976px;
   line-height: 25px;

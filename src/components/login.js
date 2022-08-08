@@ -70,7 +70,7 @@ export default function Login(){
 
 
 const Campo= styled.input`
-width:375px;
+width:350px;
 height:45px;
 color: #DBDBDB;
 font-size: 19.976px;
@@ -83,7 +83,7 @@ margin-bottom: 8px;
 `;
 
 const Campodis= styled.input`
-width:375px;
+width:350px;
 height:45px;
 color: #DBDBDB;
 font-size: 19.976px;
@@ -102,7 +102,7 @@ button{
     display: flex;
     align-items:center;
     justify-content: center;
-    width:375px;
+    width:350px;
     height:45px;
     font-size: 19.976px;
     line-height: 25px;
