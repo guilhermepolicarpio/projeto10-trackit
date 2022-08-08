@@ -2,6 +2,7 @@ import TopApp from './top/topApp';
 import Footer from './Footer'
 import styled from 'styled-components';
 import CreateHabits from './CreateHabits';
+import { useNavigate } from "react-router-dom";
 import { useState,useContext,useEffect } from "react";
 import UserContext from './UserContext';
 import axios from 'axios';
@@ -11,8 +12,10 @@ import { getHabit } from '../services/trackit';
 export default function Habits({userinfo}){
 
     const [habits, setHabits] = useState([]);
-    const { userInfo,reload,SetReload,AddHabits, setAddHabits } = useContext(UserContext);
+    const {userInfo,reload,SetReload,AddHabits, setAddHabits } = useContext(UserContext);
         
+    let navigate = useNavigate();
+
     useEffect(() => {    
        
         const config = {
@@ -25,7 +28,13 @@ export default function Habits({userinfo}){
             setHabits([...response.data]);
             SetReload(true)
         });
-    },[reload,userInfo.token,SetReload])
+
+        getHabit(config).catch((res)=>{
+            alert (`Sua sessão expirou! Erro ${res.response.status}!`)
+            navigate("../")
+        });
+       
+    },[reload,userInfo.token,navigate])
     
     return(
         <Box>
@@ -135,7 +144,7 @@ const HabitsContainer = styled.div`
 const Habit = styled.div`
     width: 340px;
     height: 91px;
-    background-color: #ffffff;
+    background-color: #FFFFFF;
     border-radius: 5px;
     padding: 0 15px;
     margin-bottom: 10px;
@@ -163,7 +172,7 @@ const Weekdays = styled.div`
 const Weekday = styled.div`
     width: 30px;
     height: 30px;
-    background-color: ${props => props.background};
+    background: ${props => props.background};
     color: ${props => props.color};
     border: 1px solid #D5D5D5;
     border-radius: 6px;
@@ -175,7 +184,7 @@ const Weekday = styled.div`
 const NoHabit= styled.div`
     font-size: 18px;
     line-height: 22px;
-    color: black;
+    color: #000000;
     padding: 10px 10px 0px 10px;
     text-align: center;
 `;

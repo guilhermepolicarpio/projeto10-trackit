@@ -2,6 +2,7 @@
 import styled from 'styled-components';
 import TopApp from './top/topApp'; 
 import Footer from './Footer'
+import { useNavigate } from "react-router-dom";
 import 'dayjs/locale/pt-br';
 import dayjs from 'dayjs';
 import UserContext from './UserContext';
@@ -15,6 +16,8 @@ export default function Today({userinfo}){
     const now = days[0].toUpperCase() + days.substring([1]);
     const {userInfo,reload,SetReload,progress, setProgress,Todaylist, setTodaylist} = useContext(UserContext);
 
+    let navigate = useNavigate();
+
     useEffect(() => {
 
         const config = {
@@ -25,16 +28,20 @@ export default function Today({userinfo}){
 
         getTodayHabit(config).then((res)=>{
             setTodaylist(res.data)
-            SetReload(true)
-        });
-
-        if(Todaylist.length >0) {
-          let total = ((Todaylist.filter(habit => habit.done === true).length / Todaylist.length) * 100).toFixed(0);
-          console.log(total)
-          setProgress(total);
-        }
+            SetReload(false)
+            if(Todaylist.length >0) {
+                let total = ((Todaylist.filter(habit => habit.done === true).length / Todaylist.length) * 100).toFixed(0);
+                console.log(total)
+                setProgress(total);
+              }
+        })
         
-      }, [Todaylist,userInfo.token,SetReload,setProgress,setTodaylist]);
+        getTodayHabit(config).catch((res)=>{
+            alert (`Sua sessão expirou! Erro ${res.response.status}!`)
+            navigate("../")
+        })
+       
+      }, [Todaylist,userInfo.token,SetReload,setProgress,setTodaylist,navigate]);
 
     function checkHabit(habit) {
         console.log("oi")

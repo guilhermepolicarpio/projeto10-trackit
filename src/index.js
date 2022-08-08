@@ -19,6 +19,8 @@ export default function Initial(){
     const [AddHabits, setAddHabits] = useState(false);
     const [progress, setProgress] = useState(0);
     const [Todaylist, setTodaylist] = useState([]);
+
+    
     return(
      <>
         <GlobalStyle />

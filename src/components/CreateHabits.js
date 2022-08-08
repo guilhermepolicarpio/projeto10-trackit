@@ -55,6 +55,7 @@ function addHabit () {
         setLoading(false) 
         SetReload(false)
         setAddHabits(false)
+       
     })
 };
 
@@ -62,18 +63,17 @@ function addHabit () {
         if(days[dayIndex] === true){
             return "#cfcfcf";
         }else{
-            return "#ffffff";
+            return "#FFFFFF";
         }
     }
 
     function paintFont(dayIndex){
         if(days[dayIndex] === true){
-            return "#ffffff";
+            return "#FFFFFF";
         }else{
             return "#DBDBDB";
         }
     }
-
 
     return(
         
@@ -166,7 +166,7 @@ const Weekday = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: ${props => props.background};
+    background: ${props => props.background};
     color: ${props => props.color};
     border: 1px solid #D5D5D5;
     border-radius: 5px;

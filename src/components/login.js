@@ -1,9 +1,9 @@
 import styled from 'styled-components';
-import { useState, useContext } from "react";
 import TopLogin from "./top/topLogin"
 import { Link,useNavigate } from "react-router-dom";
 import { loginUser } from '../services/trackit';
 import { ThreeDots } from  'react-loader-spinner';
+import { useContext, useState, useEffect } from "react";
 import UserContext from './UserContext';
 
 export default function Login(){
@@ -13,6 +13,13 @@ export default function Login(){
     const { setUserInfo } = useContext(UserContext);
 
     let navigate = useNavigate();
+
+    useEffect(() => {
+        if (localStorage.getItem('userInfo') !== null) {
+            setUserInfo(JSON.parse(localStorage.getItem('userInfo')));
+           
+        };
+    }, [navigate,setUserInfo])
 
     const Change = (e) => {
         setValues({ ...values, [e.target.name]: e.target.value });
@@ -25,13 +32,14 @@ export default function Login(){
      
     loginUser(values).then((res) => {
     setUserInfo(res.data);
+    localStorage.setItem('userInfo', JSON.stringify(res.data));
     navigate("../hoje")
     })
 
     loginUser(values).catch((res) => {
-    setDisable(false)
+ 
     alert(res.response.data.message)
-    setLoading(false);
+
     })
   }
 
